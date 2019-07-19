@@ -11,7 +11,6 @@ export class LoginComponent {
   constructor(private afAuth: AngularFireAuth) {}
 
   login() {
-    //this.afAuth.auth.signInWithRedirect(new firebase.auth.GoogleAuthProvider());
-    console.log("login");
+    this.afAuth.auth.signInWithRedirect(new firebase.auth.GoogleAuthProvider());
   }
 }
