@@ -18,6 +18,10 @@ import { MyOrdersComponent } from "./components/my-orders/my-orders.component";
 import { LoginComponent } from "./components/login/login.component";
 import { AdminProductsComponent } from "./components/admin/admin-products/admin-products.component";
 import { AdminOrdersComponent } from "./components/admin/admin-orders/admin-orders.component";
+import { AuthService } from "./services/auth.service";
+import { AuthGuard } from "./services/auth-guard.service";
+import { AdminAuthGuard } from "./services/admin-auth-guard.service";
+import { UserService } from "./services/user.service";
 
 @NgModule({
   declarations: [
@@ -41,7 +45,7 @@ import { AdminOrdersComponent } from "./components/admin/admin-orders/admin-orde
     AngularFireAuthModule,
     NgbModule
   ],
-  providers: [],
+  providers: [AuthService, AuthGuard, AdminAuthGuard, UserService],
   bootstrap: [AppComponent]
 })
 export class AppModule {}
