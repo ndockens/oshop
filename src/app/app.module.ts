@@ -27,8 +27,6 @@ import { UserService } from "./services/user.service";
 import { ProductFormComponent } from "./components/admin/product-form/product-form.component";
 import { CategoryService } from "./services/category.service";
 import { ProductService } from "./services/product.service";
-import { PaginationComponent } from "./components/pagination/pagination.component";
-import { DynamicTableComponent } from "./components/dynamic-table/dynamic-table.component";
 
 @NgModule({
   declarations: [
@@ -43,9 +41,7 @@ import { DynamicTableComponent } from "./components/dynamic-table/dynamic-table.
     AdminProductsComponent,
     AdminOrdersComponent,
     LoginComponent,
-    ProductFormComponent,
-    PaginationComponent,
-    DynamicTableComponent
+    ProductFormComponent
   ],
   imports: [
     BrowserModule,
