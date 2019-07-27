@@ -9,6 +9,7 @@ import { AppComponent } from "./app.component";
 import { AngularFireModule } from "angularfire2";
 import { AngularFireDatabaseModule } from "angularfire2/database";
 import { AngularFireAuthModule } from "angularfire2/auth";
+import { CustomFormsModule } from "ng2-validation";
 import { NavbarComponent } from "./components/navbar/navbar.component";
 import { HomeComponent } from "./components/home/home.component";
 import { ProductsComponent } from "./components/products/products.component";
@@ -26,6 +27,8 @@ import { UserService } from "./services/user.service";
 import { ProductFormComponent } from "./components/admin/product-form/product-form.component";
 import { CategoryService } from "./services/category.service";
 import { ProductService } from "./services/product.service";
+import { PaginationComponent } from "./components/pagination/pagination.component";
+import { DynamicTableComponent } from "./components/dynamic-table/dynamic-table.component";
 
 @NgModule({
   declarations: [
@@ -40,7 +43,9 @@ import { ProductService } from "./services/product.service";
     AdminProductsComponent,
     AdminOrdersComponent,
     LoginComponent,
-    ProductFormComponent
+    ProductFormComponent,
+    PaginationComponent,
+    DynamicTableComponent
   ],
   imports: [
     BrowserModule,
@@ -49,7 +54,8 @@ import { ProductService } from "./services/product.service";
     AngularFireDatabaseModule,
     AngularFireAuthModule,
     NgbModule,
-    FormsModule
+    FormsModule,
+    CustomFormsModule
   ],
   providers: [
     AuthService,

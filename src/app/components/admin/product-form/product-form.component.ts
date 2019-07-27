@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
+import { Router, ActivatedRoute } from "@angular/router";
 import { Observable } from "rxjs";
-import { map } from "rxjs/operators";
+import { map, take } from "rxjs/operators";
 import { CategoryService } from "src/app/services/category.service";
 import { ProductService } from "src/app/services/product.service";
 
@@ -11,12 +12,16 @@ import { ProductService } from "src/app/services/product.service";
 })
 export class ProductFormComponent implements OnInit {
   categories$;
+  product = {};
+  id;
 
   constructor(
-    categoryService: CategoryService,
-    private productService: ProductService
+    private router: Router,
+    private categoryService: CategoryService,
+    private productService: ProductService,
+    private route: ActivatedRoute
   ) {
-    this.categories$ = categoryService
+    this.categories$ = this.categoryService
       .getCategories()
       .snapshotChanges()
       .pipe(
@@ -26,11 +31,28 @@ export class ProductFormComponent implements OnInit {
           })
         )
       );
+
+    this.id = this.route.snapshot.paramMap.get("id");
+
+    if (this.id)
+      this.productService
+        .get(this.id)
+        .pipe(take(1))
+        .subscribe(p => (this.product = p));
   }
 
   save(product) {
-    console.log(product);
-    this.productService.create(product);
+    if (this.id) this.productService.update(this.id, product);
+    else this.productService.create(product);
+
+    this.router.navigate(["/admin/products"]);
+  }
+
+  delete() {
+    if (confirm("Are you sure you want to delete this item?")) {
+      this.productService.delete(this.id);
+      this.router.navigate(["/admin/products"]);
+    }
   }
 
   ngOnInit() {}
