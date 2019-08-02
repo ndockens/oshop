@@ -1,3 +1,46 @@
-<p>
-  products works!
-</p>
+<div class="row">
+  <div class="col-md-4">
+    <!-- <ul class="list-group">
+      <li class="list-group-item">Categories</li>
+      <li *ngFor="let category of categories" class="list-group-item">
+        {{ category.name }}
+      </li>
+    </ul> -->
+
+    <div class="card">
+      <div class="card-header">
+        Categories
+      </div>
+      <ul class="list-group list-group-flush">
+        <li
+          *ngFor="let category of categories"
+          class="list-group-item"
+          [class.active]="category.name === selectedCategory"
+          (click)="selectCategory(category.name)"
+          style="cursor:pointer"
+        >
+          {{ category.name }}
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="col-md-8">
+    <div class="row">
+      <ng-container *ngFor="let product of filteredProducts; let i = index">
+        <div class="col">
+          <div class="card">
+            <img [src]="product.imageUrl" class="card-img-top" alt="..." />
+            <div class="card-body">
+              <h5 class="card-title">{{ product.title }}</h5>
+              <p class="card-text">
+                {{ product.price | currency: "USD":"symbol" }}
+              </p>
+            </div>
+            <a href="#" class="btn btn-primary">Add to Cart</a>
+          </div>
+        </div>
+        <div *ngIf="(i + 1) % 2 === 0" class="w-100"></div>
+      </ng-container>
+    </div>
+  </div>
+</div>
