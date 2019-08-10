@@ -34,7 +34,41 @@
               </p>
             </div>
             <div class="card-footer">
-              <a href="#" class="btn btn-primary btn-block">Add to Cart</a>
+              <button
+                *ngIf="getProductQuantity(product.key) === 0"
+                (click)="addToCart(product)"
+                class="btn btn-secondary btn-block"
+              >
+                Add to Cart
+              </button>
+              <div
+                *ngIf="getProductQuantity(product.key) > 0"
+                class="input-group"
+              >
+                <div class="input-group-prepend">
+                  <button
+                    (click)="removeFromCart(product)"
+                    class="btn btn-secondary btn-block"
+                  >
+                    -
+                  </button>
+                </div>
+                <input
+                  type="text"
+                  class="form-control"
+                  style="text-align: center; background-color: white"
+                  [value]="getProductQuantity(product.key) + ' in cart'"
+                  disabled
+                />
+                <div class="input-group-append">
+                  <button
+                    (click)="addToCart(product)"
+                    class="btn btn-secondary btn-block"
+                  >
+                    +
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         </div>

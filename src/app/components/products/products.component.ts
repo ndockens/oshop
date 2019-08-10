@@ -1,8 +1,9 @@
-import { Component, OnDestroy } from "@angular/core";
+import { Component, OnDestroy, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { Subscription } from "rxjs";
 import { CategoryService } from "src/app/services/category.service";
 import { ProductService } from "src/app/services/product.service";
+import { ShoppingCartService } from "src/app/services/shopping-cart.service";
 import { Product } from "src/app/models/product";
 
 @Component({
@@ -10,17 +11,20 @@ import { Product } from "src/app/models/product";
   templateUrl: "./products.component.html",
   styleUrls: ["./products.component.css"]
 })
-export class ProductsComponent implements OnDestroy {
+export class ProductsComponent implements OnInit, OnDestroy {
   categorySubscription: Subscription;
   productSubscription: Subscription;
   queryParamSubscription: Subscription;
+  shoppingCartSubscription: Subscription;
   categories: any[] = [];
   products: Product[] = [];
   selectedCategory: string;
+  shoppingCart;
 
   constructor(
     categoryService: CategoryService,
     productService: ProductService,
+    private shoppingCartService: ShoppingCartService,
     route: ActivatedRoute
   ) {
     this.categorySubscription = categoryService
@@ -46,9 +50,33 @@ export class ProductsComponent implements OnDestroy {
     return this.products.filter(p => p.category === this.selectedCategory);
   }
 
+  addToCart(product) {
+    this.shoppingCartService.addToCart(product);
+  }
+
+  removeFromCart(product) {
+    this.shoppingCartService.removeFromCart(product);
+  }
+
+  getProductQuantity(productId: string) {
+    if (!this.shoppingCart) return 0;
+
+    const item = this.shoppingCart.items[productId];
+    return item ? item.quantity : 0;
+  }
+
+  async ngOnInit() {
+    this.shoppingCartSubscription = (await this.shoppingCartService.getCart()).subscribe(
+      cart => {
+        this.shoppingCart = cart;
+      }
+    );
+  }
+
   ngOnDestroy() {
     this.categorySubscription.unsubscribe();
     this.productSubscription.unsubscribe();
     this.queryParamSubscription.unsubscribe();
+    this.shoppingCartSubscription.unsubscribe();
   }
 }
