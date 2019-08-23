@@ -1,0 +1,10 @@
+table {
+  margin-top: 20px;
+}
+
+.product-image {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+}

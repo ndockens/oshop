@@ -37,21 +37,21 @@ export class ShoppingCartService {
     return this.db.object("/shopping-carts/" + cartId + "/items/" + productId);
   }
 
-  // async getAllItems() {
-  //   const cartId = await this.getOrCreateCartId();
+  async getAllItems(): Promise<Observable<any[]>> {
+    const cartId = await this.getOrCreateCartId();
 
-  //   return this.db
-  //     .list("/shopping-carts/" + cartId + "/items")
-  //     .snapshotChanges()
-  //     .pipe(
-  //       map(items =>
-  //         items.map(a => {
-  //           const { product, quantity, dateModified } = a.payload.val() as any;
-  //           return { key: a.key, product, quantity, dateModified };
-  //         })
-  //       )
-  //     );
-  // }
+    return this.db
+      .list("/shopping-carts/" + cartId + "/items")
+      .snapshotChanges()
+      .pipe(
+        map(items =>
+          items.map(a => {
+            const { product, quantity, dateModified } = a.payload.val() as any;
+            return { key: a.key, product, quantity, dateModified };
+          })
+        )
+      );
+  }
 
   async addToCart(product: Product) {
     const cartId = await this.getOrCreateCartId();
@@ -89,5 +89,10 @@ export class ShoppingCartService {
           dateModified: Date.now()
         });
       });
+  }
+
+  async clearCart() {
+    const cartId = await this.getOrCreateCartId();
+    return this.db.list("/shopping-carts/" + cartId + "/items").remove();
   }
 }

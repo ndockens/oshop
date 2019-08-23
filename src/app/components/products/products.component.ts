@@ -59,7 +59,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
   }
 
   getProductQuantity(productId: string) {
-    if (!this.shoppingCart) return 0;
+    if (!this.shoppingCart || !this.shoppingCart.items) return 0;
 
     const item = this.shoppingCart.items[productId];
     return item ? item.quantity : 0;
