@@ -4,6 +4,8 @@ import { ShoppingCart } from "src/app/models/shopping-cart";
 import { Subscription } from "rxjs";
 import { OrderService } from "src/app/services/order.service";
 import { AuthService } from "src/app/services/auth.service";
+import { Order } from "src/app/models/order";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "checkout",
@@ -19,30 +21,16 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   userSubscription: Subscription;
 
   constructor(
+    private router: Router,
     private shoppingCartService: ShoppingCartService,
     private orderService: OrderService,
     private authService: AuthService
   ) {}
 
-  placeOrder() {
-    const order = {
-      userId: this.userId,
-      datePlaced: new Date().getTime(),
-      shipping: this.shipping,
-      items: this.shoppingCartItems.map(item => {
-        return {
-          product: {
-            title: item.product.title,
-            imageUrl: item.product.imageUrl,
-            price: item.product.price
-          },
-          quantity: item.quantity,
-          totalPrice: item.product.price * item.quantity
-        };
-      })
-    };
-
-    this.orderService.storeOrder(order);
+  async placeOrder() {
+    const order = new Order(this.userId, this.shipping, this.shoppingCartItems);
+    const result = await this.orderService.placeOrder(order);
+    this.router.navigate(["/order-success", result.key]);
   }
 
   async ngOnInit() {

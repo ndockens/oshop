@@ -22,7 +22,7 @@ const routes: Routes = [
   { path: "my/orders", component: MyOrdersComponent, canActivate: [AuthGuard] },
   { path: "checkout", component: CheckoutComponent, canActivate: [AuthGuard] },
   {
-    path: "order-success",
+    path: "order-success/:id",
     component: OrderSuccessComponent,
     canActivate: [AuthGuard]
   },
