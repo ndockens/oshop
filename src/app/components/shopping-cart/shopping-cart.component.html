@@ -1,6 +1,14 @@
 <h2>Shopping Cart</h2>
 <p>You have {{ itemCount }} items in your shopping cart.</p>
 
+<button
+  *ngIf="itemCount > 0"
+  (click)="clearCart()"
+  class="btn btn-danger btn-sm"
+>
+  Clear Shopping Cart
+</button>
+
 <table class="table">
   <thead>
     <tr>
@@ -62,6 +70,6 @@
   </tfoot>
 </table>
 
-<button (click)="clearCart()" class="btn btn-danger">
-  Clear Shopping Cart
-</button>
+<a routerLink="/checkout" style="margin-bottom: 20px" class="btn btn-primary"
+  >Check Out</a
+>
